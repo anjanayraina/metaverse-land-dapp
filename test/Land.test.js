@@ -36,7 +36,7 @@ contract('Land', ([owner1, owner2]) => {
 
         it('Returns the max supply', async () => {
             result = await land.maxSupply()
-            result.toString().should.equal('5')
+            result.toString().should.equal('10')
         })
 
         it('Returns the number of buildings/land available', async () => {

@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract Land is ERC721 {
     uint256 public cost = 1 ether;
-    uint256 public maxSupply = 5;
+    uint256 public maxSupply = 10;
     uint256 public totalSupply = 0;
 
     struct Building {
@@ -29,17 +29,17 @@ contract Land is ERC721 {
         cost = _cost;
 
         buildings.push(
-            Building("City Hall", address(0x0), 0, 0, 0, 10, 10, 10)
+            Building("E-54", address(0x0), 0, 0, 0, 10, 10, 10)
         );
-        buildings.push(Building("Stadium", address(0x0), 0, 10, 0, 10, 5, 3));
+        buildings.push(Building("Kamla Palace", address(0x0), 0, 10, 0, 10, 5, 3));
         buildings.push(
-            Building("University", address(0x0), 0, -10, 0, 10, 5, 3)
-        );
-        buildings.push(
-            Building("Shopping Plaza 1", address(0x0), 10, 0, 0, 5, 25, 5)
+            Building("IIIT Delhi", address(0x0), 0, -10, 0, 10, 5, 3)
         );
         buildings.push(
-            Building("Shopping Plaza 2", address(0x0), -10, 0, 0, 5, 25, 5)
+            Building("Sunny Bhaiya Ki Dukan", address(0x0), 10, 0, 0, 5, 25, 5)
+        );
+        buildings.push(
+            Building("DPS Jammu", address(0x0), -10, 0, 0, 5, 25, 5)
         );
     }
 
@@ -49,7 +49,7 @@ contract Land is ERC721 {
         require(buildings[_id - 1].owner == address(0x0));
         require(msg.value >= cost);
 
-        // NOTE: tokenID always starts from 1, but our array starts from 0
+    
         buildings[_id - 1].owner = msg.sender;
         totalSupply = totalSupply + 1;
 
@@ -63,10 +63,10 @@ contract Land is ERC721 {
     ) public override {
         require(
             _isApprovedOrOwner(_msgSender(), tokenId),
-            "ERC721: transfer caller is not owner nor approved"
+            "Transaction is in valid!!"
         );
 
-        // Update Building ownership
+      
         buildings[tokenId - 1].owner = to;
 
         _transfer(from, to, tokenId);
@@ -80,16 +80,15 @@ contract Land is ERC721 {
     ) public override {
         require(
             _isApprovedOrOwner(_msgSender(), tokenId),
-            "ERC721: transfer caller is not owner nor approved"
+            "Transaction is in valid!!"
         );
 
-        // Update Building ownership
+  
         buildings[tokenId - 1].owner = to;
 
         _safeTransfer(from, to, tokenId, _data);
     }
 
-    // Public View Functions
     function getBuildings() public view returns (Building[] memory) {
         return buildings;
     }
